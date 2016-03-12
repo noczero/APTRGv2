@@ -71,7 +71,8 @@ namespace APTRGv2
             RAWData = serialPort1.ReadExisting();
             Data = Regex.Split(RAWData, " "); //Memisah RAWData berdasarkan Spasi, diperlukan library using System.Text.RegularExpressions;. 
 
-            this.Invoke(new EventHandler(tampildata));
+            this.Invoke(new EventHandler(tampildata)); // Buat Event tampildata
+            this.Invoke(new EventHandler(writedata)); // Save data
         }
 
         // Buat Class Tampil Data
@@ -79,6 +80,65 @@ namespace APTRGv2
         private void tampildata(object sender, EventArgs e)
         {
             richTextBox1.Text = RAWData;
+        }
+
+        //button5 = Browse
+        private void button5_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFD = new SaveFileDialog();
+            saveFD.Filter = "Text Files|*.txt|All Files|*.*";
+            saveFD.Title = "Select a File to Store the Serial Data";
+            if (saveFD.ShowDialog() == DialogResult.OK)
+            {
+                pathbox.Text = saveFD.FileName;
+            }
+        }
+
+        // Class Save Data
+        bool Autosavestate;
+        
+        private void writedata(object sender, EventArgs e)
+        {
+            if (Autosavestate)
+            {
+                if (!File.Exists(pathbox.Text))
+                {
+                    File.Create(pathbox.Text);
+                }
+                else
+                {
+                    using (StreamWriter sw = File.AppendText(pathbox.Text))
+                    {
+                        sw.Write(RAWData); //RAWData di save
+                    }
+                }
+            }
+        }
+        
+        // Auto Save
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (serialPort1.IsOpen)
+            {
+                if (pathbox.Text.Length != 0)
+                {
+                    if (Autosavestate)
+                    {
+                        Autosavestate = false;
+                        button3.Text = "Autosave";
+                    }
+                    else
+                    {
+                        Autosavestate = true;
+                        button3.Text = "Stop Autosave";
+                    }
+
+                }
+                else
+                    MessageBox.Show("File Path Empty");
+            }
+            else
+                MessageBox.Show("Serial Port not Connected");
         }
     }
 }
