@@ -16,6 +16,9 @@ namespace APTRGv2
 {
     public partial class Form1 : Form
     {
+        //Variable Global
+
+
         public Form1()
         {
             InitializeComponent();
@@ -42,9 +45,19 @@ namespace APTRGv2
             button1.Enabled = true; //Mengaktifkan tombol send
             button4.Enabled = true; //Mengaktifkan tombol stop
 
+
+            serialPort1.BaudRate = Int32.Parse(comboBox2.Text);
+            serialPort1.PortName = comboBox1.Text;
+            serialPort1.StopBits = StopBits.One;
+            serialPort1.Parity = Parity.None;
+            serialPort1.DataBits = 8;
+
+            //serialPort1.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);           
             serialPort1.Open(); //Membuka Sesi Port Serial untuk Komunikasi ke Arduino.
         }
 
+        
+       
         //button4 = Stop
         private void button4_Click(object sender, EventArgs e)
         {
@@ -55,9 +68,9 @@ namespace APTRGv2
             button2.Enabled = true;
 
             button4.Enabled = false; //Mematikan tombol Stop
-
+            
             serialPort1.Close(); //Menutup Sesi Port Serial untuk Komunikasi ke Arduino.
-
+          //  Close();
         }
 
         //Jika Sesi Port Serial Terbuka
@@ -66,22 +79,53 @@ namespace APTRGv2
         // Deklarasi Variable Global
         string RAWData; //RawData = Data Dari Arduino
         string[] Data; //RAWData yang jadi Array biar bisa di split
-        private void serialPort1_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
+                
+        // Buat Class Tampil Data
+        //Deklarasi Data
+        string header, waktu, ketinggian, temperature, kelembaban, tekanan, arahangin, kec_angin, lintang, bujur;
+
+        //Membuat class langusng dari tanda Event Properties DOble click
+        private void serialPort1_DataReceived_1(object sender, SerialDataReceivedEventArgs e)
         {
-            RAWData = serialPort1.ReadExisting();
+            RAWData = serialPort1.ReadLine();
+            
             Data = Regex.Split(RAWData, " "); //Memisah RAWData berdasarkan Spasi, diperlukan library using System.Text.RegularExpressions;. 
 
-            this.Invoke(new EventHandler(tampildata)); // Buat Event tampildata
-            this.Invoke(new EventHandler(writedata)); // Save data
+            this.Invoke(new EventHandler(tampildata)); //callback fungsi tampildata
+            this.Invoke(new EventHandler(writedata)); //callback fungsi writedata
         }
-
-        // Buat Class Tampil Data
 
         private void tampildata(object sender, EventArgs e)
         {
-            richTextBox1.Text = RAWData;
+            //Array 
+            header = Data[0];
+            waktu = Data[1];
+            ketinggian = Data[2];
+            temperature = Data[3];
+            kelembaban = Data[4];
+            tekanan = Data[5];
+            arahangin = Data[6];
+            kec_angin = Data[7];
+            lintang = Data[8];
+            bujur = Data[9];
+
+            richTextBox1.AppendText(RAWData);
+            richTextBox1.ScrollToCaret(); //Scroll Biar di bawah
+            textBox1.Text = waktu;
+            textBox2.Text = ketinggian;
+            textBox3.Text = temperature;
+            textBox4.Text = kelembaban;
+            textBox5.Text = tekanan;
+            textBox6.Text = arahangin;
+            textBox7.Text = kec_angin;
+            textBox8.Text = lintang;
+            textBox9.Text = bujur;
+
         }
 
+        // Update Box
+
+        
         //button5 = Browse
         private void button5_Click(object sender, EventArgs e)
         {
@@ -109,7 +153,7 @@ namespace APTRGv2
                 {
                     using (StreamWriter sw = File.AppendText(pathbox.Text))
                     {
-                        sw.Write(RAWData); //RAWData di save
+                        sw.Write(RAWData + "\n"); //RAWData di save
                     }
                 }
             }
@@ -139,6 +183,11 @@ namespace APTRGv2
             }
             else
                 MessageBox.Show("Serial Port not Connected");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            serialPort1.WriteLine("1");
         }
     }
 }
