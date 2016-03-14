@@ -12,12 +12,31 @@ using System.IO;
 using System.IO.Ports;
 using System.Text.RegularExpressions;
 
+//Library Graph
+using ZedGraph;
+
+
 namespace APTRGv2
 {
     public partial class Form1 : Form
     {
-        //Variable Global
+        //Variable Global Static
+        // Untuk Line
 
+        static LineItem curve_ketinggian, curve_temperature, curve_kelembaban, curve_tekanan, curve_arahangin, curve_kecangin, curve_lintang, curve_bujur;
+        
+        static RollingPointPairList  list_ketinggian, list_temperature, list_kelembaban, list_tekanan, list_arahangin, list_kecangin, list_lintang, list_bujur;
+
+        static double xTimeStamp = 0;
+
+        //int xTimeStamp = 1;
+        // Deklarasi Variable Global
+        string RAWData; //RawData = Data Dari Arduino
+        string[] Data; //RAWData yang jadi Array biar bisa di split
+
+        // Buat Class Tampil Data
+        //Deklarasi Data
+        string header, waktu, ketinggian, temperature, kelembaban, tekanan, arahangin, kec_angin, lintang, bujur;
 
         public Form1()
         {
@@ -26,6 +45,61 @@ namespace APTRGv2
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            
+            // ZedGraphControl1 = Temperature
+
+            GraphPane Graph_Temperature = zedGraphControl1.GraphPane; // Buat Graph untuk Temperature
+            Graph_Temperature.Title.Text = "Temperature";
+            Graph_Temperature.XAxis.Title.Text = "Celcius";
+            Graph_Temperature.YAxis.Title.Text = "Ketinggian";
+
+            // ZedGraphControl2 = Kelembaban
+
+            GraphPane Graph_Kelembaban = zedGraphControl2.GraphPane; // Buat Graph untuk Kelembaban
+            Graph_Kelembaban.Title.Text = "Kelembaban";
+            Graph_Kelembaban.XAxis.Title.Text = "%";
+            Graph_Kelembaban.YAxis.Title.Text = "Ketinggian";
+
+            // ZedGraphControl3 = Tekanan
+
+            GraphPane Graph_Tekanan = zedGraphControl3.GraphPane; // Buat Graph untuk Tekanan
+            Graph_Tekanan.Title.Text = "Tekanan";
+            Graph_Tekanan.XAxis.Title.Text = "Pascal";
+            Graph_Tekanan.YAxis.Title.Text = "Ketinggian";
+
+            // ZedGraphControl4 = Kecepatan Angin
+
+            GraphPane Graph_Kecepatan = zedGraphControl4.GraphPane; // Buat Graph untuk Kecepatan
+            Graph_Kecepatan.Title.Text = "Kecepatan";
+            Graph_Kecepatan.XAxis.Title.Text = "KM / Jam";
+            Graph_Kecepatan.YAxis.Title.Text = "Ketinggian";
+
+            // Graphic Waktu
+            // ZedGraphCOntrol5 = terhadap waktu
+
+            GraphPane Graph_Waktu = zedGraphControl5.GraphPane; // Buat Graph_Waktu
+            Graph_Waktu.Title.Text = "Graph Based on Time";
+            Graph_Waktu.XAxis.Title.Text = "Value";
+            Graph_Waktu.YAxis.Title.Text = "Time";
+            //Atur Skala Sumbu X
+            Graph_Waktu.XAxis.Scale.Min = 0;
+            Graph_Waktu.XAxis.Scale.Max = 30;
+            Graph_Waktu.XAxis.Scale.MinorStep = 1;
+            Graph_Waktu.XAxis.Scale.MajorStep = 5;
+            //Atur Tampilan Stlye
+            Graph_Waktu.XAxis.MajorGrid.IsVisible = true; //BUat grid
+            Graph_Waktu.YAxis.MajorGrid.IsVisible = true;
+            Graph_Waktu.XAxis.MajorGrid.Color = Color.DarkGreen;
+            Graph_Waktu.YAxis.MajorGrid.Color = Color.DarkGreen;
+            //Atur Warna Graph
+            Graph_Waktu.Chart.Fill = new Fill(Color.AliceBlue);
+            Graph_Waktu.Fill = new Fill(Color.AntiqueWhite);
+
+            //Atur Spasi
+            foreach (ZedGraph.LineItem li in Graph_Waktu.CurveList)
+            {
+                li.Line.Width = 5;
+            }
 
         }
         //comboBox1 = PortName
@@ -76,14 +150,7 @@ namespace APTRGv2
         //Jika Sesi Port Serial Terbuka
         //class ini aktif
 
-        // Deklarasi Variable Global
-        string RAWData; //RawData = Data Dari Arduino
-        string[] Data; //RAWData yang jadi Array biar bisa di split
-                
-        // Buat Class Tampil Data
-        //Deklarasi Data
-        string header, waktu, ketinggian, temperature, kelembaban, tekanan, arahangin, kec_angin, lintang, bujur;
-
+       
         //Membuat class langusng dari tanda Event Properties DOble click
         private void serialPort1_DataReceived_1(object sender, SerialDataReceivedEventArgs e)
         {
@@ -112,14 +179,14 @@ namespace APTRGv2
             richTextBox1.AppendText(RAWData);
             richTextBox1.ScrollToCaret(); //Scroll Biar di bawah
             textBox1.Text = waktu;
-            textBox2.Text = ketinggian;
-            textBox3.Text = temperature;
-            textBox4.Text = kelembaban;
-            textBox5.Text = tekanan;
-            textBox6.Text = arahangin;
-            textBox7.Text = kec_angin;
-            textBox8.Text = lintang;
-            textBox9.Text = bujur;
+            textBox2.Text = ketinggian + " mdpl";
+            textBox3.Text = temperature + " °C";
+            textBox4.Text = kelembaban + " %";
+            textBox5.Text = tekanan + " Pa";
+            textBox6.Text = arahangin + " derajat" ;
+            textBox7.Text = kec_angin + " m/s";
+            textBox8.Text = lintang + " °";
+            textBox9.Text = bujur + " °";
 
         }
 
