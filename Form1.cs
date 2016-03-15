@@ -47,28 +47,41 @@ namespace APTRGv2
         {
             
             // ZedGraphControl1 = Temperature
-
+            //
             GraphPane Graph_Temperature = zedGraphControl1.GraphPane; // Buat Graph untuk Temperature
             Graph_Temperature.Title.Text = "Temperature";
             Graph_Temperature.XAxis.Title.Text = "Celcius";
             Graph_Temperature.YAxis.Title.Text = "Ketinggian";
+            
+            // Callback data temperature
+            list_temperature = new RollingPointPairList(300);
+            
+            // Callback data temperature
+            curve_temperature = Graph_Temperature.AddCurve("", list_temperature, Color.Red, SymbolType.None); // Callback data temperature
+
+            foreach (ZedGraph.LineItem li in Graph_Temperature.CurveList)
+            {
+                li.Line.Width = 3;
+            }
+
+            zedGraphControl1.AxisChange();
 
             // ZedGraphControl2 = Kelembaban
-
+            //
             GraphPane Graph_Kelembaban = zedGraphControl2.GraphPane; // Buat Graph untuk Kelembaban
             Graph_Kelembaban.Title.Text = "Kelembaban";
             Graph_Kelembaban.XAxis.Title.Text = "%";
             Graph_Kelembaban.YAxis.Title.Text = "Ketinggian";
 
             // ZedGraphControl3 = Tekanan
-
+            //
             GraphPane Graph_Tekanan = zedGraphControl3.GraphPane; // Buat Graph untuk Tekanan
             Graph_Tekanan.Title.Text = "Tekanan";
             Graph_Tekanan.XAxis.Title.Text = "Pascal";
             Graph_Tekanan.YAxis.Title.Text = "Ketinggian";
 
             // ZedGraphControl4 = Kecepatan Angin
-
+            //
             GraphPane Graph_Kecepatan = zedGraphControl4.GraphPane; // Buat Graph untuk Kecepatan
             Graph_Kecepatan.Title.Text = "Kecepatan";
             Graph_Kecepatan.XAxis.Title.Text = "KM / Jam";
@@ -76,21 +89,24 @@ namespace APTRGv2
 
             // Graphic Waktu
             // ZedGraphCOntrol5 = terhadap waktu
-
+            //
             GraphPane Graph_Waktu = zedGraphControl5.GraphPane; // Buat Graph_Waktu
             Graph_Waktu.Title.Text = "Graph Based on Time";
             Graph_Waktu.XAxis.Title.Text = "Value";
             Graph_Waktu.YAxis.Title.Text = "Time";
+           
             //Atur Skala Sumbu X
             Graph_Waktu.XAxis.Scale.Min = 0;
             Graph_Waktu.XAxis.Scale.Max = 30;
             Graph_Waktu.XAxis.Scale.MinorStep = 1;
             Graph_Waktu.XAxis.Scale.MajorStep = 5;
+
             //Atur Tampilan Stlye
             Graph_Waktu.XAxis.MajorGrid.IsVisible = true; //BUat grid
             Graph_Waktu.YAxis.MajorGrid.IsVisible = true;
             Graph_Waktu.XAxis.MajorGrid.Color = Color.DarkGreen;
             Graph_Waktu.YAxis.MajorGrid.Color = Color.DarkGreen;
+           
             //Atur Warna Graph
             Graph_Waktu.Chart.Fill = new Fill(Color.AliceBlue);
             Graph_Waktu.Fill = new Fill(Color.AntiqueWhite);
@@ -125,6 +141,8 @@ namespace APTRGv2
             serialPort1.StopBits = StopBits.One;
             serialPort1.Parity = Parity.None;
             serialPort1.DataBits = 8;
+            serialPort1.ReadBufferSize = 4096;
+            serialPort1.ReadTimeout = 500;
 
             //serialPort1.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);           
             serialPort1.Open(); //Membuka Sesi Port Serial untuk Komunikasi ke Arduino.
@@ -187,6 +205,29 @@ namespace APTRGv2
             textBox7.Text = kec_angin + " m/s";
             textBox8.Text = lintang + " °";
             textBox9.Text = bujur + " °";
+
+            // Graph Berdasarkan Ketinggian
+            // zedGraphContol 1 = Temperature
+            // Function ambil data
+
+            list_temperature.Add(Convert.ToDouble(temperature), Convert.ToDouble(ketinggian));
+            Scale temp_scale = zedGraphControl1.GraphPane.YAxis.Scale;
+
+            if (Convert.ToDouble(ketinggian) > temp_scale.Max - 100.0)
+            {
+                temp_scale.Max = Convert.ToDouble(ketinggian) + 100.0;
+                temp_scale.Min = temp_scale.Max - 1000.0;
+            }
+                
+            if (Convert.ToDouble(ketinggian) < temp_scale.Min + 100.0)
+            {
+                temp_scale.Min = Convert.ToDouble(ketinggian) - 100.0;
+                temp_scale.Max = temp_scale.Min + 1000.0;
+            }
+
+            zedGraphControl1.AxisChange();
+            zedGraphControl1.Invalidate();
+
 
         }
 
