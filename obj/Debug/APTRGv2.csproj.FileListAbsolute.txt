@@ -17,3 +17,6 @@ C:\Users\Zero-Inside\Documents\GitHub\APTRGv2\obj\Debug\APTRGv2.Form1.resources
 C:\Users\Zero-Inside\Documents\GitHub\APTRGv2\obj\Debug\APTRGv2.Properties.Resources.resources
 C:\Users\Zero-Inside\Documents\GitHub\APTRGv2\obj\Debug\APTRGv2.csproj.GenerateResource.Cache
 C:\Users\Zero-Inside\Documents\GitHub\APTRGv2\bin\Debug\ZedGraph.dll
+C:\Users\Zero-Inside\Documents\GitHub\APTRGv2\bin\Debug\GMap.NET.Core.dll
+C:\Users\Zero-Inside\Documents\GitHub\APTRGv2\bin\Debug\GMap.NET.WindowsForms.dll
+C:\Users\Zero-Inside\Documents\GitHub\APTRGv2\obj\Debug\APTRGv2.Controls.r.resources

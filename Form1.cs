@@ -15,6 +15,13 @@ using System.Text.RegularExpressions;
 //Library Graph
 using ZedGraph;
 
+//Library Gmaps
+using GMap.NET;
+using GMap.NET.WindowsForms;
+using GMap.NET.WindowsForms.Markers;
+using GMap.NET.MapProviders;
+using GMap.NET.Projections;
+
 
 namespace APTRGv2
 {
@@ -37,7 +44,8 @@ namespace APTRGv2
         // Buat Class Tampil Data
         //Deklarasi Data
         string header, waktu, ketinggian, temperature, kelembaban, tekanan, arahangin, kec_angin, lintang, bujur;
-
+        Double lat = -6.9768651;
+        Double lng = 107.63018883;
         public Form1()
         {
             InitializeComponent();
@@ -45,16 +53,35 @@ namespace APTRGv2
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+            MainMap.MapProvider = BingSatelliteMapProvider.Instance;
+            GMap.NET.GMaps.Instance.Mode = AccessMode.ServerOnly;
+            MainMap.Position = new PointLatLng(-6.9768651, 107.63018883);
+
             
+
+            //GmarkerGoogle
+            GMapOverlay markersOverlay = new GMapOverlay("markers");
+        
+    
             // ZedGraphControl1 = Temperature
             //
             GraphPane Graph_Temperature = zedGraphControl1.GraphPane; // Buat Graph untuk Temperature
             Graph_Temperature.Title.Text = "Temperature";
             Graph_Temperature.XAxis.Title.Text = "Celcius";
             Graph_Temperature.YAxis.Title.Text = "Ketinggian";
+
+            Graph_Temperature.YAxis.Scale.Min = 0;
+            Graph_Temperature.YAxis.Scale.Max = 100;
+            Graph_Temperature.YAxis.Scale.MinorStep = 1;
+           // Graph_Temperature.YAxis.Scale.MajorStep = 5;
+            Graph_Temperature.XAxis.MajorGrid.IsVisible = true; //BUat grid
+            Graph_Temperature.YAxis.MajorGrid.IsVisible = true;
+            Graph_Temperature.XAxis.MajorGrid.Color = Color.DarkGreen;
+            Graph_Temperature.YAxis.MajorGrid.Color = Color.DarkGreen;
             
             // Callback data temperature
-            list_temperature = new RollingPointPairList(300);
+            list_temperature = new RollingPointPairList(100);
             
             // Callback data temperature
             curve_temperature = Graph_Temperature.AddCurve("", list_temperature, Color.Red, SymbolType.None); // Callback data temperature
@@ -72,6 +99,25 @@ namespace APTRGv2
             Graph_Kelembaban.Title.Text = "Kelembaban";
             Graph_Kelembaban.XAxis.Title.Text = "%";
             Graph_Kelembaban.YAxis.Title.Text = "Ketinggian";
+            Graph_Kelembaban.XAxis.MajorGrid.IsVisible = true; //BUat grid
+            Graph_Kelembaban.YAxis.MajorGrid.IsVisible = true;
+            Graph_Kelembaban.XAxis.MajorGrid.Color = Color.DarkGreen;
+            Graph_Kelembaban.YAxis.MajorGrid.Color = Color.DarkGreen;
+
+            // Callback data kelembaban
+
+            list_kelembaban = new RollingPointPairList(100);
+
+            // Callback data kelembaban
+            curve_kelembaban = Graph_Kelembaban.AddCurve("", list_kelembaban, Color.Red, SymbolType.None); // Callback data temperature
+
+            foreach (ZedGraph.LineItem li in Graph_Kelembaban.CurveList)
+            {
+                li.Line.Width = 3;
+            }
+
+            zedGraphControl2.AxisChange();
+
 
             // ZedGraphControl3 = Tekanan
             //
@@ -79,13 +125,45 @@ namespace APTRGv2
             Graph_Tekanan.Title.Text = "Tekanan";
             Graph_Tekanan.XAxis.Title.Text = "Pascal";
             Graph_Tekanan.YAxis.Title.Text = "Ketinggian";
+            Graph_Tekanan.XAxis.MajorGrid.IsVisible = true; //BUat grid
+            Graph_Tekanan.YAxis.MajorGrid.IsVisible = true;
+            Graph_Tekanan.XAxis.MajorGrid.Color = Color.DarkGreen;
+            Graph_Tekanan.YAxis.MajorGrid.Color = Color.DarkGreen;
+            // Callback data tekanan
+            list_tekanan = new RollingPointPairList(100);
 
+            // Callback data tekanan
+            curve_tekanan = Graph_Tekanan.AddCurve("", list_tekanan, Color.Red, SymbolType.None); // Callback data temperature
+
+            foreach (ZedGraph.LineItem li in Graph_Tekanan.CurveList)
+            {
+                li.Line.Width = 3;
+            }
+
+            zedGraphControl3.AxisChange();
             // ZedGraphControl4 = Kecepatan Angin
             //
             GraphPane Graph_Kecepatan = zedGraphControl4.GraphPane; // Buat Graph untuk Kecepatan
             Graph_Kecepatan.Title.Text = "Kecepatan";
             Graph_Kecepatan.XAxis.Title.Text = "KM / Jam";
             Graph_Kecepatan.YAxis.Title.Text = "Ketinggian";
+            Graph_Kecepatan.XAxis.MajorGrid.IsVisible = true; //BUat grid
+            Graph_Kecepatan.YAxis.MajorGrid.IsVisible = true;
+            Graph_Kecepatan.XAxis.MajorGrid.Color = Color.DarkGreen;
+            Graph_Kecepatan.YAxis.MajorGrid.Color = Color.DarkGreen;
+
+            // Callback data tekanan
+            list_kecangin = new RollingPointPairList(100);
+
+            // Callback data tekanan
+            curve_kecangin = Graph_Kecepatan.AddCurve("", list_kecangin, Color.Red, SymbolType.None); // Callback data temperature
+
+            foreach (ZedGraph.LineItem li in Graph_Kecepatan.CurveList)
+            {
+                li.Line.Width = 3;
+            }
+
+            zedGraphControl4.AxisChange();
 
             // Graphic Waktu
             // ZedGraphCOntrol5 = terhadap waktu
@@ -116,6 +194,8 @@ namespace APTRGv2
             {
                 li.Line.Width = 5;
             }
+
+        
 
         }
         //comboBox1 = PortName
@@ -182,8 +262,12 @@ namespace APTRGv2
 
         private void tampildata(object sender, EventArgs e)
         {
-            //Array 
+
             header = Data[0];
+
+            if (header == "005") { 
+            //Array 
+            //header = Data[0];
             waktu = Data[1];
             ketinggian = Data[2];
             temperature = Data[3];
@@ -192,7 +276,8 @@ namespace APTRGv2
             arahangin = Data[6];
             kec_angin = Data[7];
             lintang = Data[8];
-            bujur = Data[9];
+            bujur =   Data[9];
+            }
 
             richTextBox1.AppendText(RAWData);
             richTextBox1.ScrollToCaret(); //Scroll Biar di bawah
@@ -227,7 +312,76 @@ namespace APTRGv2
 
             zedGraphControl1.AxisChange();
             zedGraphControl1.Invalidate();
+            
+            // zedGraphControl 2 = Kelembaban
 
+            list_kelembaban.Add(Convert.ToDouble(kelembaban), Convert.ToDouble(ketinggian));
+            Scale kele_scale = zedGraphControl2.GraphPane.YAxis.Scale;
+
+            if (Convert.ToDouble(ketinggian) > kele_scale.Max - 100.0)
+            {
+                kele_scale.Max = Convert.ToDouble(ketinggian) + 100.0;
+                kele_scale.Min = kele_scale.Max - 1000.0;
+            }
+
+            if (Convert.ToDouble(ketinggian) < kele_scale.Min + 100.0)
+            {
+                kele_scale.Min = Convert.ToDouble(ketinggian) - 100.0;
+                kele_scale.Max = kele_scale.Min + 1000.0;
+            }
+
+            zedGraphControl2.AxisChange();
+            zedGraphControl2.Invalidate();
+
+            // zedGraphControl 3 = Tekanan
+
+            list_tekanan.Add(Convert.ToDouble(tekanan), Convert.ToDouble(ketinggian));
+            Scale teka_scale = zedGraphControl3.GraphPane.YAxis.Scale;
+
+            if (Convert.ToDouble(ketinggian) > teka_scale.Max - 100.0)
+            {
+                teka_scale.Max = Convert.ToDouble(ketinggian) + 100.0;
+                teka_scale.Min = teka_scale.Max - 1000.0;
+            }
+
+            if (Convert.ToDouble(ketinggian) < teka_scale.Min + 100.0)
+            {
+                teka_scale.Min = Convert.ToDouble(ketinggian) - 100.0;
+                teka_scale.Max = teka_scale.Min + 1000.0;
+            }
+
+            zedGraphControl3.AxisChange();
+            zedGraphControl3.Invalidate();
+
+            // zedGraphControl 4 = Kecepatan
+
+            list_kecangin.Add(Convert.ToDouble(kec_angin), Convert.ToDouble(ketinggian));
+            Scale keca_scale = zedGraphControl4.GraphPane.YAxis.Scale;
+
+            if (Convert.ToDouble(ketinggian) > keca_scale.Max - 100.0)
+            {
+                keca_scale.Max = Convert.ToDouble(ketinggian) + 100.0;
+                keca_scale.Min = keca_scale.Max - 1000.0;
+            }
+
+            if (Convert.ToDouble(ketinggian) < keca_scale.Min + 100.0)
+            {
+                keca_scale.Min = Convert.ToDouble(ketinggian) - 100.0;
+                keca_scale.Max = keca_scale.Min + 1000.0;
+            }
+
+            zedGraphControl4.AxisChange();
+            zedGraphControl4.Invalidate();
+
+
+            // Maps
+
+            GMapOverlay markersOverlay = new GMapOverlay("markers");
+            GMarkerGoogle marker = new GMarkerGoogle(new PointLatLng(Convert.ToDouble(bujur) + -6.9768651, Convert.ToDouble(lintang) + 107.63018883), GMarkerGoogleType.green);
+            markersOverlay.Markers.Clear();
+            MainMap.Overlays.Add(markersOverlay);
+            markersOverlay.Markers.Add(marker);
+            MainMap.Invalidate(false);
 
         }
 
