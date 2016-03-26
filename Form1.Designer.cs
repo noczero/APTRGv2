@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.AGaugeLabel aGaugeLabel1 = new System.Windows.Forms.AGaugeLabel();
+            System.Windows.Forms.AGaugeLabel aGaugeLabel2 = new System.Windows.Forms.AGaugeLabel();
+            System.Windows.Forms.AGaugeLabel aGaugeLabel3 = new System.Windows.Forms.AGaugeLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -42,6 +45,13 @@
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.lblDetik = new System.Windows.Forms.Label();
+            this.lblMenit = new System.Windows.Forms.Label();
+            this.lblJam = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
@@ -84,6 +94,20 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.zedGraphControl5 = new ZedGraph.ZedGraphControl();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lblTemp = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.aGauge1 = new System.Windows.Forms.AGauge();
+            this.lblTekanan = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.aGauge3 = new System.Windows.Forms.AGauge();
+            this.lblKelembaban = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.aGauge2 = new System.Windows.Forms.AGauge();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label19 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.headingIndicatorInstrumentControl1 = new APTRGv2.HeadingIndicatorInstrumentControl();
             this.airSpeedIndicatorInstrumentControl1 = new APTRGv2.AirSpeedIndicatorInstrumentControl();
             this.altimeterInstrumentControl1 = new APTRGv2.AltimeterInstrumentControl();
             this.groupBox1.SuspendLayout();
@@ -127,7 +151,7 @@
             this.groupBox1.Controls.Add(this.comboBox1);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(12, 19);
+            this.groupBox1.Location = new System.Drawing.Point(12, 1);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(215, 194);
             this.groupBox1.TabIndex = 1;
@@ -269,6 +293,80 @@
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Data Received";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.Location = new System.Drawing.Point(724, 1);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(34, 20);
+            this.label22.TabIndex = 5;
+            this.label22.Text = "jam";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label18.Location = new System.Drawing.Point(845, 2);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(43, 20);
+            this.label18.TabIndex = 5;
+            this.label18.Text = "detik";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label21.Location = new System.Drawing.Point(777, 2);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(48, 20);
+            this.label21.TabIndex = 5;
+            this.label21.Text = "menit";
+            // 
+            // lblDetik
+            // 
+            this.lblDetik.AutoSize = true;
+            this.lblDetik.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDetik.Location = new System.Drawing.Point(821, 2);
+            this.lblDetik.Name = "lblDetik";
+            this.lblDetik.Size = new System.Drawing.Size(29, 20);
+            this.lblDetik.TabIndex = 5;
+            this.lblDetik.Text = "00";
+            // 
+            // lblMenit
+            // 
+            this.lblMenit.AutoSize = true;
+            this.lblMenit.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMenit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblMenit.Location = new System.Drawing.Point(753, 2);
+            this.lblMenit.Name = "lblMenit";
+            this.lblMenit.Size = new System.Drawing.Size(29, 20);
+            this.lblMenit.TabIndex = 5;
+            this.lblMenit.Text = "00";
+            // 
+            // lblJam
+            // 
+            this.lblJam.AutoSize = true;
+            this.lblJam.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblJam.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblJam.Location = new System.Drawing.Point(700, 2);
+            this.lblJam.Name = "lblJam";
+            this.lblJam.Size = new System.Drawing.Size(29, 20);
+            this.lblJam.TabIndex = 5;
+            this.lblJam.Text = "00";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(553, 1);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(147, 20);
+            this.label16.TabIndex = 5;
+            this.label16.Text = "Waktu Peluncuran :";
             // 
             // textBox9
             // 
@@ -444,17 +542,23 @@
             this.tabControl1.Location = new System.Drawing.Point(243, 201);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1107, 495);
+            this.tabControl1.Size = new System.Drawing.Size(1107, 507);
             this.tabControl1.TabIndex = 3;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.label23);
+            this.tabPage1.Controls.Add(this.label20);
+            this.tabPage1.Controls.Add(this.label19);
+            this.tabPage1.Controls.Add(this.headingIndicatorInstrumentControl1);
             this.tabPage1.Controls.Add(this.groupBox5);
+            this.tabPage1.Controls.Add(this.airSpeedIndicatorInstrumentControl1);
             this.tabPage1.Controls.Add(this.groupBox4);
+            this.tabPage1.Controls.Add(this.altimeterInstrumentControl1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1099, 469);
+            this.tabPage1.Size = new System.Drawing.Size(1099, 481);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Image & Map Interface";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -473,7 +577,7 @@
             this.groupBox4.Controls.Add(this.MainMap);
             this.groupBox4.Location = new System.Drawing.Point(18, 21);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(510, 430);
+            this.groupBox4.Size = new System.Drawing.Size(538, 290);
             this.groupBox4.TabIndex = 1;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Map";
@@ -499,7 +603,7 @@
             this.MainMap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.MainMap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.MainMap.ShowTileGridLines = false;
-            this.MainMap.Size = new System.Drawing.Size(476, 395);
+            this.MainMap.Size = new System.Drawing.Size(504, 257);
             this.MainMap.TabIndex = 21;
             this.MainMap.Zoom = 18D;
             // 
@@ -512,7 +616,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1099, 469);
+            this.tabPage2.Size = new System.Drawing.Size(1099, 481);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Graph on Altitude";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -586,7 +690,7 @@
             this.tabPage3.Controls.Add(this.zedGraphControl5);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1099, 469);
+            this.tabPage3.Size = new System.Drawing.Size(1099, 481);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Graph on Time";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -687,28 +791,278 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.altimeterInstrumentControl1);
-            this.groupBox3.Controls.Add(this.airSpeedIndicatorInstrumentControl1);
-            this.groupBox3.Location = new System.Drawing.Point(12, 221);
+            this.groupBox3.Controls.Add(this.lblTemp);
+            this.groupBox3.Controls.Add(this.label14);
+            this.groupBox3.Controls.Add(this.aGauge1);
+            this.groupBox3.Controls.Add(this.lblTekanan);
+            this.groupBox3.Controls.Add(this.label17);
+            this.groupBox3.Controls.Add(this.aGauge3);
+            this.groupBox3.Controls.Add(this.lblKelembaban);
+            this.groupBox3.Controls.Add(this.label15);
+            this.groupBox3.Controls.Add(this.aGauge2);
+            this.groupBox3.Location = new System.Drawing.Point(12, 195);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(215, 466);
+            this.groupBox3.Size = new System.Drawing.Size(215, 513);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Indicator Parameter";
             // 
+            // lblTemp
+            // 
+            this.lblTemp.AutoSize = true;
+            this.lblTemp.BackColor = System.Drawing.Color.Transparent;
+            this.lblTemp.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTemp.Location = new System.Drawing.Point(89, 84);
+            this.lblTemp.Name = "lblTemp";
+            this.lblTemp.Size = new System.Drawing.Size(32, 17);
+            this.lblTemp.TabIndex = 4;
+            this.lblTemp.Text = "000";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(74, 150);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(67, 13);
+            this.label14.TabIndex = 3;
+            this.label14.Text = "Temperature";
+            // 
+            // aGauge1
+            // 
+            this.aGauge1.BaseArcColor = System.Drawing.Color.Maroon;
+            this.aGauge1.BaseArcRadius = 70;
+            this.aGauge1.BaseArcStart = 160;
+            this.aGauge1.BaseArcSweep = 270;
+            this.aGauge1.BaseArcWidth = 1;
+            this.aGauge1.Center = new System.Drawing.Point(100, 100);
+            aGaugeLabel1.Color = System.Drawing.SystemColors.WindowText;
+            aGaugeLabel1.Name = "Temperature";
+            aGaugeLabel1.Position = new System.Drawing.Point(0, 0);
+            aGaugeLabel1.Text = null;
+            this.aGauge1.GaugeLabels.Add(aGaugeLabel1);
+            this.aGauge1.Location = new System.Drawing.Point(6, 19);
+            this.aGauge1.MaxValue = 90F;
+            this.aGauge1.MinValue = -10F;
+            this.aGauge1.Name = "aGauge1";
+            this.aGauge1.NeedleColor1 = System.Windows.Forms.AGaugeNeedleColor.Yellow;
+            this.aGauge1.NeedleColor2 = System.Drawing.Color.Transparent;
+            this.aGauge1.NeedleRadius = 80;
+            this.aGauge1.NeedleType = System.Windows.Forms.NeedleType.Advance;
+            this.aGauge1.NeedleWidth = 2;
+            this.aGauge1.ScaleLinesInterColor = System.Drawing.Color.Black;
+            this.aGauge1.ScaleLinesInterInnerRadius = 73;
+            this.aGauge1.ScaleLinesInterOuterRadius = 80;
+            this.aGauge1.ScaleLinesInterWidth = 1;
+            this.aGauge1.ScaleLinesMajorColor = System.Drawing.Color.Green;
+            this.aGauge1.ScaleLinesMajorInnerRadius = 70;
+            this.aGauge1.ScaleLinesMajorOuterRadius = 80;
+            this.aGauge1.ScaleLinesMajorStepValue = 10F;
+            this.aGauge1.ScaleLinesMajorWidth = 2;
+            this.aGauge1.ScaleLinesMinorColor = System.Drawing.Color.Maroon;
+            this.aGauge1.ScaleLinesMinorInnerRadius = 75;
+            this.aGauge1.ScaleLinesMinorOuterRadius = 80;
+            this.aGauge1.ScaleLinesMinorTicks = 9;
+            this.aGauge1.ScaleLinesMinorWidth = 1;
+            this.aGauge1.ScaleNumbersColor = System.Drawing.Color.Black;
+            this.aGauge1.ScaleNumbersFormat = null;
+            this.aGauge1.ScaleNumbersRadius = 95;
+            this.aGauge1.ScaleNumbersRotation = 0;
+            this.aGauge1.ScaleNumbersStartScaleLine = 0;
+            this.aGauge1.ScaleNumbersStepScaleLines = 1;
+            this.aGauge1.Size = new System.Drawing.Size(203, 155);
+            this.aGauge1.TabIndex = 2;
+            this.aGauge1.Text = "TempGauge1";
+            this.aGauge1.Value = 0F;
+            this.aGauge1.ValueChanged += new System.EventHandler(this.aGauge1_ValueChanged);
+            // 
+            // lblTekanan
+            // 
+            this.lblTekanan.AutoSize = true;
+            this.lblTekanan.BackColor = System.Drawing.Color.Transparent;
+            this.lblTekanan.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTekanan.Location = new System.Drawing.Point(86, 410);
+            this.lblTekanan.Name = "lblTekanan";
+            this.lblTekanan.Size = new System.Drawing.Size(32, 17);
+            this.lblTekanan.TabIndex = 4;
+            this.lblTekanan.Text = "000";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(80, 476);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(50, 13);
+            this.label17.TabIndex = 3;
+            this.label17.Text = "Tekanan";
+            // 
+            // aGauge3
+            // 
+            this.aGauge3.BaseArcColor = System.Drawing.Color.Maroon;
+            this.aGauge3.BaseArcRadius = 70;
+            this.aGauge3.BaseArcStart = 140;
+            this.aGauge3.BaseArcSweep = 270;
+            this.aGauge3.BaseArcWidth = 1;
+            this.aGauge3.Center = new System.Drawing.Point(100, 100);
+            aGaugeLabel2.Color = System.Drawing.SystemColors.WindowText;
+            aGaugeLabel2.Name = "Temperature";
+            aGaugeLabel2.Position = new System.Drawing.Point(0, 0);
+            aGaugeLabel2.Text = null;
+            this.aGauge3.GaugeLabels.Add(aGaugeLabel2);
+            this.aGauge3.Location = new System.Drawing.Point(6, 345);
+            this.aGauge3.MaxValue = 80F;
+            this.aGauge3.MinValue = -10F;
+            this.aGauge3.Name = "aGauge3";
+            this.aGauge3.NeedleColor1 = System.Windows.Forms.AGaugeNeedleColor.Yellow;
+            this.aGauge3.NeedleColor2 = System.Drawing.Color.Transparent;
+            this.aGauge3.NeedleRadius = 80;
+            this.aGauge3.NeedleType = System.Windows.Forms.NeedleType.Advance;
+            this.aGauge3.NeedleWidth = 2;
+            this.aGauge3.ScaleLinesInterColor = System.Drawing.Color.Black;
+            this.aGauge3.ScaleLinesInterInnerRadius = 73;
+            this.aGauge3.ScaleLinesInterOuterRadius = 80;
+            this.aGauge3.ScaleLinesInterWidth = 1;
+            this.aGauge3.ScaleLinesMajorColor = System.Drawing.Color.Green;
+            this.aGauge3.ScaleLinesMajorInnerRadius = 70;
+            this.aGauge3.ScaleLinesMajorOuterRadius = 80;
+            this.aGauge3.ScaleLinesMajorStepValue = 10F;
+            this.aGauge3.ScaleLinesMajorWidth = 2;
+            this.aGauge3.ScaleLinesMinorColor = System.Drawing.Color.Maroon;
+            this.aGauge3.ScaleLinesMinorInnerRadius = 75;
+            this.aGauge3.ScaleLinesMinorOuterRadius = 80;
+            this.aGauge3.ScaleLinesMinorTicks = 9;
+            this.aGauge3.ScaleLinesMinorWidth = 1;
+            this.aGauge3.ScaleNumbersColor = System.Drawing.Color.Black;
+            this.aGauge3.ScaleNumbersFormat = null;
+            this.aGauge3.ScaleNumbersRadius = 95;
+            this.aGauge3.ScaleNumbersRotation = 0;
+            this.aGauge3.ScaleNumbersStartScaleLine = 0;
+            this.aGauge3.ScaleNumbersStepScaleLines = 1;
+            this.aGauge3.Size = new System.Drawing.Size(203, 178);
+            this.aGauge3.TabIndex = 2;
+            this.aGauge3.Text = "TekanGauge1";
+            this.aGauge3.Value = 0F;
+            this.aGauge3.ValueChanged += new System.EventHandler(this.aGauge1_ValueChanged);
+            // 
+            // lblKelembaban
+            // 
+            this.lblKelembaban.AutoSize = true;
+            this.lblKelembaban.BackColor = System.Drawing.Color.Transparent;
+            this.lblKelembaban.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblKelembaban.Location = new System.Drawing.Point(86, 245);
+            this.lblKelembaban.Name = "lblKelembaban";
+            this.lblKelembaban.Size = new System.Drawing.Size(32, 17);
+            this.lblKelembaban.TabIndex = 4;
+            this.lblKelembaban.Text = "000";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(75, 311);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(66, 13);
+            this.label15.TabIndex = 3;
+            this.label15.Text = "Kelembaban";
+            // 
+            // aGauge2
+            // 
+            this.aGauge2.BaseArcColor = System.Drawing.Color.Maroon;
+            this.aGauge2.BaseArcRadius = 70;
+            this.aGauge2.BaseArcStart = 140;
+            this.aGauge2.BaseArcSweep = 270;
+            this.aGauge2.BaseArcWidth = 1;
+            this.aGauge2.Center = new System.Drawing.Point(100, 100);
+            aGaugeLabel3.Color = System.Drawing.SystemColors.WindowText;
+            aGaugeLabel3.Name = "Temperature";
+            aGaugeLabel3.Position = new System.Drawing.Point(0, 0);
+            aGaugeLabel3.Text = null;
+            this.aGauge2.GaugeLabels.Add(aGaugeLabel3);
+            this.aGauge2.Location = new System.Drawing.Point(6, 180);
+            this.aGauge2.MaxValue = 80F;
+            this.aGauge2.MinValue = -10F;
+            this.aGauge2.Name = "aGauge2";
+            this.aGauge2.NeedleColor1 = System.Windows.Forms.AGaugeNeedleColor.Yellow;
+            this.aGauge2.NeedleColor2 = System.Drawing.Color.Transparent;
+            this.aGauge2.NeedleRadius = 80;
+            this.aGauge2.NeedleType = System.Windows.Forms.NeedleType.Advance;
+            this.aGauge2.NeedleWidth = 2;
+            this.aGauge2.ScaleLinesInterColor = System.Drawing.Color.Black;
+            this.aGauge2.ScaleLinesInterInnerRadius = 73;
+            this.aGauge2.ScaleLinesInterOuterRadius = 80;
+            this.aGauge2.ScaleLinesInterWidth = 1;
+            this.aGauge2.ScaleLinesMajorColor = System.Drawing.Color.Green;
+            this.aGauge2.ScaleLinesMajorInnerRadius = 70;
+            this.aGauge2.ScaleLinesMajorOuterRadius = 80;
+            this.aGauge2.ScaleLinesMajorStepValue = 10F;
+            this.aGauge2.ScaleLinesMajorWidth = 2;
+            this.aGauge2.ScaleLinesMinorColor = System.Drawing.Color.Maroon;
+            this.aGauge2.ScaleLinesMinorInnerRadius = 75;
+            this.aGauge2.ScaleLinesMinorOuterRadius = 80;
+            this.aGauge2.ScaleLinesMinorTicks = 9;
+            this.aGauge2.ScaleLinesMinorWidth = 1;
+            this.aGauge2.ScaleNumbersColor = System.Drawing.Color.Black;
+            this.aGauge2.ScaleNumbersFormat = null;
+            this.aGauge2.ScaleNumbersRadius = 95;
+            this.aGauge2.ScaleNumbersRotation = 0;
+            this.aGauge2.ScaleNumbersStartScaleLine = 0;
+            this.aGauge2.ScaleNumbersStepScaleLines = 1;
+            this.aGauge2.Size = new System.Drawing.Size(203, 175);
+            this.aGauge2.TabIndex = 2;
+            this.aGauge2.Text = "HumidGauge1";
+            this.aGauge2.Value = 0F;
+            this.aGauge2.ValueChanged += new System.EventHandler(this.aGauge1_ValueChanged);
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(37, 323);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(92, 13);
+            this.label19.TabIndex = 3;
+            this.label19.Text = "Kecepatan  Angin";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(255, 323);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(57, 13);
+            this.label20.TabIndex = 3;
+            this.label20.Text = "Ketinggian";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(462, 323);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(29, 13);
+            this.label23.TabIndex = 3;
+            this.label23.Text = "Arah";
+            // 
+            // headingIndicatorInstrumentControl1
+            // 
+            this.headingIndicatorInstrumentControl1.Location = new System.Drawing.Point(414, 353);
+            this.headingIndicatorInstrumentControl1.Name = "headingIndicatorInstrumentControl1";
+            this.headingIndicatorInstrumentControl1.Size = new System.Drawing.Size(125, 124);
+            this.headingIndicatorInstrumentControl1.TabIndex = 2;
+            this.headingIndicatorInstrumentControl1.Text = "headingIndicatorInstrumentControl1";
+            // 
             // airSpeedIndicatorInstrumentControl1
             // 
-            this.airSpeedIndicatorInstrumentControl1.Location = new System.Drawing.Point(6, 19);
+            this.airSpeedIndicatorInstrumentControl1.Location = new System.Drawing.Point(19, 347);
             this.airSpeedIndicatorInstrumentControl1.Name = "airSpeedIndicatorInstrumentControl1";
-            this.airSpeedIndicatorInstrumentControl1.Size = new System.Drawing.Size(139, 153);
+            this.airSpeedIndicatorInstrumentControl1.Size = new System.Drawing.Size(129, 129);
             this.airSpeedIndicatorInstrumentControl1.TabIndex = 0;
             this.airSpeedIndicatorInstrumentControl1.Text = "airSpeedIndicatorInstrumentControl1";
             // 
             // altimeterInstrumentControl1
             // 
-            this.altimeterInstrumentControl1.Location = new System.Drawing.Point(6, 166);
+            this.altimeterInstrumentControl1.Location = new System.Drawing.Point(221, 351);
             this.altimeterInstrumentControl1.Name = "altimeterInstrumentControl1";
-            this.altimeterInstrumentControl1.Size = new System.Drawing.Size(139, 146);
+            this.altimeterInstrumentControl1.Size = new System.Drawing.Size(126, 125);
             this.altimeterInstrumentControl1.TabIndex = 1;
             this.altimeterInstrumentControl1.Text = "altimeterInstrumentControl1";
             // 
@@ -717,10 +1071,17 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1354, 712);
+            this.Controls.Add(this.label22);
             this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.label18);
             this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.label21);
             this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.lblDetik);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.lblMenit);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.lblJam);
             this.Name = "Form1";
             this.Text = "APTRGv2";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -730,12 +1091,15 @@
             this.groupBox2.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -798,6 +1162,27 @@
         private GMap.NET.WindowsForms.GMapControl MainMap;
         private AirSpeedIndicatorInstrumentControl airSpeedIndicatorInstrumentControl1;
         private AltimeterInstrumentControl altimeterInstrumentControl1;
+        private System.Windows.Forms.AGauge aGauge1;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label lblTemp;
+        private System.Windows.Forms.Label lblTekanan;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.AGauge aGauge3;
+        private System.Windows.Forms.Label lblKelembaban;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.AGauge aGauge2;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label lblDetik;
+        private System.Windows.Forms.Label lblMenit;
+        private System.Windows.Forms.Label lblJam;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label19;
+        private HeadingIndicatorInstrumentControl headingIndicatorInstrumentControl1;
     }
 }
 

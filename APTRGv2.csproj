@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AGauge">
+      <HintPath>..\..\APTRG\GUI\tool GCS\AGauge.dll</HintPath>
+    </Reference>
     <Reference Include="GMap.NET.Core">
       <HintPath>..\..\APTRG\GUI\tool GCS\GMap.NET.Core.dll</HintPath>
     </Reference>

@@ -21,6 +21,7 @@ using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using GMap.NET.MapProviders;
 using GMap.NET.Projections;
+using System.Threading;
 
 
 namespace APTRGv2
@@ -53,7 +54,7 @@ namespace APTRGv2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            
             MainMap.MapProvider = BingSatelliteMapProvider.Instance;
             GMap.NET.GMaps.Instance.Mode = AccessMode.ServerOnly;
             MainMap.Position = new PointLatLng(-6.9768651, 107.63018883);
@@ -226,7 +227,15 @@ namespace APTRGv2
 
             //serialPort1.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);           
             serialPort1.Open(); //Membuka Sesi Port Serial untuk Komunikasi ke Arduino.
+
+            //Buka Open TIme
+
+            timer1.Enabled = true;
+
+         
         }
+
+        
 
         
        
@@ -243,26 +252,85 @@ namespace APTRGv2
             
             serialPort1.Close(); //Menutup Sesi Port Serial untuk Komunikasi ke Arduino.
           //  Close();
+          //  timer1.Enabled = false;
+
+            if (serialPort1.IsOpen)
+            {
+
+               // e.Cancel = true; //cancel the fom closing
+
+                Thread CloseDown = new Thread(new ThreadStart(CloseSerialOnExit)); //close port in new thread to avoid hang
+
+                CloseDown.Start(); //close port in new thread to avoid hang
+
+            }
+
+        }
+
+        private void CloseSerialOnExit()
+        {
+
+            try
+            {
+
+                serialPort1.Close(); //close the serial port
+
+            }
+
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message); //catch any serial port closing error messages
+
+            }
+
+            this.Invoke(new EventHandler(NowClose)); //now close back in the main thread
+
+        }
+
+        private void NowClose(object sender, EventArgs e)
+        {
+
+            this.Close(); //now close the form
         }
 
         //Jika Sesi Port Serial Terbuka
         //class ini aktif
 
-       
+        string removedBreaks;
         //Membuat class langusng dari tanda Event Properties DOble click
         private void serialPort1_DataReceived_1(object sender, SerialDataReceivedEventArgs e)
         {
+           // System.Threading.Thread.Sleep(100);
             RAWData = serialPort1.ReadLine();
-            
-            Data = Regex.Split(RAWData, " "); //Memisah RAWData berdasarkan Spasi, diperlukan library using System.Text.RegularExpressions;. 
+
+            string replaceWith = "";
+             removedBreaks = RAWData.Replace("\r\n", replaceWith).Replace("\n", replaceWith).Replace("\r", replaceWith);
+            if (RAWData == "")
+                return;
+
+            Data = Regex.Split(removedBreaks, " "); //Memisah RAWData berdasarkan Spasi, diperlukan library using System.Text.RegularExpressions;. 
 
             this.Invoke(new EventHandler(tampildata)); //callback fungsi tampildata
             this.Invoke(new EventHandler(writedata)); //callback fungsi writedata
+            this.Invoke(new EventHandler(peta));
+        }
+
+        private void peta(object sender, EventArgs e)
+        {
+            // Maps
+            System.Threading.Thread.Sleep(10);
+            GMapOverlay markersOverlay = new GMapOverlay("markers");
+            GMarkerGoogle marker = new GMarkerGoogle(new PointLatLng(Convert.ToDouble(bujur) + -6.9768651, Convert.ToDouble(lintang) + 107.63018883), GMarkerGoogleType.green);
+            markersOverlay.Markers.Clear();
+            MainMap.Overlays.Add(markersOverlay);
+            markersOverlay.Markers.Add(marker);
+            MainMap.Invalidate(false);
         }
 
         private void tampildata(object sender, EventArgs e)
         {
-
+            
             header = Data[0];
 
             if (header == "005") { 
@@ -279,8 +347,10 @@ namespace APTRGv2
             bujur =   Data[9];
             }
 
-            richTextBox1.AppendText(RAWData);
-            richTextBox1.ScrollToCaret(); //Scroll Biar di bawah
+            richTextBox1.Text = removedBreaks;
+
+           // richTextBox1.AppendText(Data);
+           // richTextBox1.ScrollToCaret(); //Scroll Biar di bawah
             textBox1.Text = waktu;
             textBox2.Text = ketinggian + " mdpl";
             textBox3.Text = temperature + " °C";
@@ -290,6 +360,11 @@ namespace APTRGv2
             textBox7.Text = kec_angin + " m/s";
             textBox8.Text = lintang + " °";
             textBox9.Text = bujur + " °";
+
+            //label indicator
+            lblTemp.Text = temperature + " °C";
+            lblKelembaban.Text = kelembaban + " %";
+            lblTekanan.Text = tekanan + "Pa";
 
             // Graph Berdasarkan Ketinggian
             // zedGraphContol 1 = Temperature
@@ -373,15 +448,17 @@ namespace APTRGv2
             zedGraphControl4.AxisChange();
             zedGraphControl4.Invalidate();
 
+            // Avionics
 
-            // Maps
+            airSpeedIndicatorInstrumentControl1.SetAirSpeedIndicatorParameters(Convert.ToInt32(kec_angin));
+            altimeterInstrumentControl1.SetAlimeterParameters(Convert.ToInt16(ketinggian));
+            headingIndicatorInstrumentControl1.SetHeadingIndicatorParameters(Convert.ToInt32(arahangin));
 
-            GMapOverlay markersOverlay = new GMapOverlay("markers");
-            GMarkerGoogle marker = new GMarkerGoogle(new PointLatLng(Convert.ToDouble(bujur) + -6.9768651, Convert.ToDouble(lintang) + 107.63018883), GMarkerGoogleType.green);
-            markersOverlay.Markers.Clear();
-            MainMap.Overlays.Add(markersOverlay);
-            markersOverlay.Markers.Add(marker);
-            MainMap.Invalidate(false);
+            // Gauge
+            aGauge1.Value = Convert.ToInt64(temperature);
+            aGauge2.Value = Convert.ToInt64(kelembaban);
+            aGauge3.Value = Convert.ToInt64(tekanan);
+
 
         }
 
@@ -450,6 +527,38 @@ namespace APTRGv2
         private void button1_Click(object sender, EventArgs e)
         {
             serialPort1.WriteLine("1");
+        }
+
+        private void aGauge1_ValueChanged(object sender, EventArgs e)
+        {
+            aGauge1.Value = Convert.ToInt16(temperature);
+        }
+
+        int ms,s,m,h;
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+           // System.Threading.Thread.Sleep(100);
+             ms = ms + 1;
+            if (ms == 9)
+            {
+                ms = 0;
+                s = s + 1;
+                 lblDetik.Text = s.ToString();               
+                if (s == 59)
+                {
+                    s = 0;
+                    m = m + 1;
+                    lblMenit.Text = m.ToString();
+                    if (m == 59)
+                    {
+                        m = 0;
+                        h = h + 1;
+                        lblJam.Text = h.ToString();
+                  
+                    } 
+                } 
+            }
+
         }
     }
 }
